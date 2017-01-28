@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Get CD catalog</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("button").click(function() {
+                var dataString = "";
+                $.getJSON("cdcatalog.php", dataString, function(result, textStatus, jqXHR) {
+                    $("#ajaxResponse").html(jqXHR.responseText + "<br />" + textStatus + "<br />");
+
+                    $("cd").html();
+
+                });
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <button>get JSON data</button>
+    <div id="ajaxResponse"></div> <br />
+    <div id="error"></div> <br />
+    <div id="cd"></div> <br />
+
+
+
+
+</body>
+
+</html>

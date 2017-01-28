@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>FALeagues using jQuery and php PDOs</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="jquery.jCombo.js"></script>
+<style type="text/css">
+<!--
+.style1 {
+	font-size: 16px;
+	font-weight: bold;
+}
+-->
+</style>
+</head>
+<body>
+<p class="style1">League and team data for 2016-2017 season!</p>
+<p class="style1">Only Premiership and Championship leagues populated</p>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#list1").jCombo("getDivisionList.php", {} );
+$("#list2").hide();
+$("#list3").hide();
+$("#list1").change(function()
+{
+	if($("#list1").val() == 0 )
+        {
+          $("#list2").hide();
+          $("#list3").hide();
+        }
+        else if($("#list1").val()  == "3" ||  $("#list1").val()  == "4" )
+				    alert ( "Data is only available for Premiership and Championship leagues" );
+				else
+        {
+          $("#list2").jCombo("getTeamsList.php?id="+$("#list1").val(), {} );
+          $("#list2").show();
+          $("#list3").hide();
+        }
+
+} ); 
+$("#list2").change(function()
+{
+	if($("#list2").val() == 0 )
+          $("#list3").hide();
+        else
+        {
+          $("#list3").jCombo("getFixturesList.php?id="+$("#list2").val(), {} );
+          $("#list3").show();
+        }
+
+} );
+$("#list3").change(function()
+{
+	if($("#list3").val() > 0 )
+        {
+          alert ( "You chose " + $("#list3").val() );
+        }
+
+} ); 
+});
+</script>
+    <select name="list1" id="list1"></select><br><br>
+    <select name="list2" id="list2"></select><br><br>
+    <select name="list3" id="list3"></select>
+</body>
+</html>

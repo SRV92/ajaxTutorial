@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+	    var dataString = "";
+        $.getJSON("getquestion.php", dataString, function(result, textStatus, jqXHR){
+			$("#ajaxResponse").html(jqXHR.responseText+ "<br>" + textStatus +"<br>") ;
+		    
+		    $("#questiontext").html(result.question.text)
+            $.each(result.question.options, function(key, value){
+                $("#options").append(key + " " + value + "<br>");
+            });
+        })
+		.error(function(jqXHR, textStatus, errorThrown){
+            //console.log("Something really bad happened " + textStatus);
+            $("#error").html(jqXHR.responseText);
+		})
+		.beforeSend(function(jqXHR, settings){
+			//adding some Dummy data to the request
+			settings.data += "&dummyData=whatever";
+		})
+		.complete(function(jqXHR, textStatus){ //After request completes i.e. both error and success
+			$("button").hide();
+		});
+		//Could just hide the button here?
+    });
+});
+</script>
+</head>
+<body>
+
+<button>Get JSON data</button>
+
+<div id= "ajaxResponse"></div><br><hr><br>
+<div id= "error"></div><br><hr><br>
+<div id="questiontext"></div><br><hr><br>
+<div id="options"></div>
+
+</body>
+</html>
